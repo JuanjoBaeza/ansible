@@ -1,0 +1,13 @@
+- debug:
+    msg: "Deploying {{instance}}"
+
+- debug: var=app_config
+
+- name: get_config
+  set_fact: inst_config={{item.value}}
+  when: item.key == instance
+  with_dict: "{{app_config}}"
+
+- name: apply template
+  debug:
+    msg: "para1 is {{inst_config.para1}}"

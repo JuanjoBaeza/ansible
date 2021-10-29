@@ -1,0 +1,21 @@
+---
+
+- hosts: localhost
+  vars:
+    instances:
+      - app1
+      - app2
+    app_config:
+      app1:
+        para1: 1
+        para2: 2
+      app2:
+        para1: 3
+        para2: 4
+  tasks:
+    - include_tasks: tasks/mytask.yml
+      vars:
+        instance: "{{outter_item}}"
+      loop: "{{instances}}"
+      loop_control:
+        loop_var: outter_item      
