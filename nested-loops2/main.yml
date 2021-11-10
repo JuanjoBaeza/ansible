@@ -1,0 +1,5 @@
+
+- hosts: localhost
+  tasks:
+     - name: Loop
+       import_tasks: loop.yml
