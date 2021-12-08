@@ -1,0 +1,21 @@
+---
+
+- name: Create path var
+  set_fact:
+    hosts_list: []
+    hosts_file_path: '/tmp/servers.txt'
+
+- name: Create a list with all hosts
+  set_fact:
+    hosts_list: '{% set hosts_list = hosts_list | default([]) + [item] %}{{ hosts_list | list }}'
+  with_items:
+  - "{{ groups['local'] }}"
+
+- name: Print
+  debug:
+    msg: "{{ hosts_list }}"
+
+- name: Create server.conf file from template
+  template:
+    src: servers.conf.j2
+    dest: "{{ hosts_file_path }}"
