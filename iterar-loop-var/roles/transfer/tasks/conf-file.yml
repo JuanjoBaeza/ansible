@@ -1,0 +1,10 @@
+---
+
+- name: Modifying file
+  lineinfile:
+    path: "/tmp/{{ e.filename }}"
+    regexp: "^{{ item.regexp }}"
+    line: "{{ item.regexp }}{{ item.value }}"
+    insertafter: "{{ item.regexp }}"
+  with_items: 
+    - "{{ e.regexps }}"

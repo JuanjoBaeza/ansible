@@ -1,0 +1,11 @@
+---
+
+- name: Creating an empty file
+  file:
+    path: "/tmp/mytemplate.conf"
+    state: touch
+
+- include_tasks: conf-file.yml
+  with_items: "{{ box }}"
+  loop_control:
+    loop_var: e

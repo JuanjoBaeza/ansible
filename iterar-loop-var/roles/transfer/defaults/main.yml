@@ -1,0 +1,11 @@
+---
+
+path: '/exported/dir'
+
+box:   
+  - filename: 'mytemplate.conf'
+    regexps:
+      - regexp: 'variable1='
+        value: '{{ path }}/tmp'
+      - regexp: 'variable2='
+        value: '{{ path }}/tmp'
