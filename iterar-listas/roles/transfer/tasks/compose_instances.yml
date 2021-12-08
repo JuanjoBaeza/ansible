@@ -1,0 +1,23 @@
+---
+
+- name: Crear lista de file servers
+  set_fact:
+    fileserver_list: "{{ groups['local'] | map('extract', hostvars, ['fileserver_id']) | list }}"
+
+- name: Escribir file servers en fichero
+  template:
+    src: template.j2
+    dest: /tmp/fileservers.conf
+  with_items: "{{ fileserver_list }}"
+
+- name: Creating a file with content
+  copy:
+    dest: "/tmp/template.conf"
+    content: |
+      INSTANCIAS=
+
+- name: Escribir valores
+  lineinfile:
+    path: '/tmp/template.conf'
+    regexp: 'INSTANCIAS='
+    line: "INSTANCIAS='{% for size in lista_size %}{% for fs in fileserver_list %} {{ size }}_TR_{{ fs }}.cfg{% endfor %}{% endfor %} {% for c in cliente %}{% for size in lista_size %}{% for fs in fileserver_list %}{% for o in c.zone %} {{ c.name }}_{{ size }}_{{ o.name }}_{{ fs }}.cfg{% endfor %}{% endfor %}{% endfor %}{% endfor %}'"

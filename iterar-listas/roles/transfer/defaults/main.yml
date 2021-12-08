@@ -1,0 +1,21 @@
+---
+
+lista_size:
+  - '20Gb'
+  - '100Gb'
+  - '500Gb'
+
+cliente:
+  - name: 'PC-1'
+    zone:
+      - name: 'OM1'
+        src_dir: '/tmp/fichero1'
+      - name: 'OM2'
+        src_dir: '/tmp/fichero2'        
+
+  - name: 'PC-2'
+    zone:
+      - name: 'OM1'
+        src_dir: '/tmp/fichero1'
+      - name: 'OM2'
+        src_dir: '/tmp/fichero2'        

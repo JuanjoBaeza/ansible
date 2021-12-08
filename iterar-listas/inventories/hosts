@@ -1,0 +1,7 @@
+[local]
+127.0.0.1 fileserver_id=fs1
+127.0.0.2 fileserver_id=fs2
+127.0.0.3 fileserver_id=fs3
+
+[local:vars]
+ansible_connection=local
