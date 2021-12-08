@@ -1,0 +1,7 @@
+---
+
+rutas:
+  - ruta: path1
+    src_dir: '/tmp/<data_type>/'
+  - ruta: path2
+    src_dir: '/tmp/<data_type>/'

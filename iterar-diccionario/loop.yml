@@ -1,0 +1,10 @@
+- name: Include dictionary
+  include_vars:
+    file: dict.yml
+
+- debug:
+    msg: 
+      - "{{ item.ruta }}"
+      - "{{ item.src_dir }}"
+  with_items:
+    - '{{ rutas }}'

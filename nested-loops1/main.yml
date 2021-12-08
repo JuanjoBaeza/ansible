@@ -15,7 +15,7 @@
   tasks:
     - include_tasks: tasks/mytask.yml
       vars:
-        instance: "{{outter_item}}"
-      loop: "{{instances}}"
+        instance: "{{ outter_item }}"
+      loop: "{{ instances }}"
       loop_control:
         loop_var: outter_item      
