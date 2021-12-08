@@ -1,5 +1,7 @@
 ---
 
+# Lanzamos con: ansible-playbook -i inventories/hosts main.yml --ask-become-pass 
+
 - hosts: localhost
   tasks:
     - include_tasks: tasks/lista.yml
