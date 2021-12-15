@@ -4,5 +4,5 @@
 
 - name: Show info field from data.yml
   debug:
-    msg: "Id: {{ input[item]['id'] }} - info: {{ input[item]['info'] }}"
+    msg: "El id es: {{ input[item]['id'] }} y la info es: {{ input[item]['info'] }}"
   with_items: "{{ input.keys() | list }}"

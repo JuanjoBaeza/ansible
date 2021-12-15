@@ -1,7 +1,6 @@
 - name: Include list
   include_vars:
-    file: list.yml
+    file: lista.yml
 
 - debug:
-    msg: 
-      - "{{ rutas }}"
+    msg: "Estas son las rutas: {{ rutas }}"
