@@ -2,6 +2,6 @@
 
 rutas:
   - ruta: path1
-    src_dir: '/tmp/<data_type>/'
+    dir: '/tmp/file1'
   - ruta: path2
-    src_dir: '/tmp/<data_type>/'
+    dir: '/tmp/file2'

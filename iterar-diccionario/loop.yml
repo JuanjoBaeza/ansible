@@ -3,8 +3,6 @@
     file: dictionary.yml
 
 - debug:
-    msg: 
-      - "{{ item.ruta }}"
-      - "{{ item.src_dir }}"
+    msg: "La ruta es: {{ item.ruta }} y su camino es: {{ item.dir }}"
   with_items:
     - '{{ rutas }}'
