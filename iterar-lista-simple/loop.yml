@@ -1,0 +1,9 @@
+- name: Include list
+  include_vars:
+    file: lista.yml
+
+- debug:
+    msg: 
+      - "{{ rutas }}"
+  with_items:
+    - '{{ rutas }}'
