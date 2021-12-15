@@ -1,0 +1,8 @@
+- name: Include dictionary
+  include_vars:
+    file: dictionary.yml
+
+- name: Show info field from data.yml
+  debug:
+    msg: "Id: {{ input[item]['id'] }} - info: {{ input[item]['info'] }}"
+  with_items: "{{ input.keys() | list }}"

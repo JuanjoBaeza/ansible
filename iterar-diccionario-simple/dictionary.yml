@@ -1,0 +1,9 @@
+---
+
+input:
+  item_1:
+    id: 1
+    info: "Information nº1"
+  item_2:
+    id: 2
+    info: "Information nº2"

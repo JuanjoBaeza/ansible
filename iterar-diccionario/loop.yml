@@ -1,6 +1,6 @@
 - name: Include dictionary
   include_vars:
-    file: dict.yml
+    file: dictionary.yml
 
 - debug:
     msg: 
