@@ -1,0 +1,84 @@
+---
+
+- name: Include vars file
+  include_vars:
+    file: vars.yml
+
+- name: PostgreSQL ping dbsrv server check
+  postgresql_ping:
+    db: "{{ dbname }}"
+    login_host: "{{ hostvars[groups['portal'][0]].ansible_host }}"
+    login_user: "{{ dbuser }}"
+    login_password: "{{ dbpass }}"
+  register: database_available
+
+- name: Check db-server availability
+  debug:
+    msg: "Database host server is available"
+  when: database_available.failed == false      
+
+- name: Check if my_db database exists
+  postgresql_query:
+    db: "{{ dbname }}"
+    login_user: "{{ dbuser }}"
+    login_host: "{{ hostvars[groups['portal'][0]].ansible_host }}"
+    login_password: "{{ dbpass }}"
+    query: SELECT EXISTS (SELECT * FROM information_schema.tables WHERE table_schema = 'my_db');
+  register: result_db
+  ignore_errors: true
+
+- name: Show if schema is OK
+  debug:
+    msg: "Database {{ dbname }} already exists"
+  when: result_db.query_result[0].exists == true
+
+- name: If database edos_links not exists create it
+  postgresql_query:
+    db: "{{ dbname }}"
+    login_user: "{{ dbuser }}"
+    login_host: "{{ hostvars[groups['portal'][0]].ansible_host }}"
+    login_password: "{{ dbpass }}"
+    query: "CREATE SCHEMA my_db AUTHORIZATION {{ dbuser }};"
+  when: result_db.query_result[0].exists == false
+
+- name: Give grants on database to edosdp user
+  postgresql_query:
+    db: "{{ dbname }}"
+    login_user: "{{ dbuser }}"
+    login_host: "{{ hostvars[groups['portal'][0]].ansible_host }}"
+    login_password: "{{ dbpass }}"
+    query: "GRANT ALL PRIVILEGES ON DATABASE {{ dbname }} TO {{ dbuser }};"
+  when: result_db.query_result[0].exists == true
+
+- name: Check if table my_table exists
+  postgresql_query:
+    db: "{{ dbname }}"
+    login_user: "{{ dbuser }}"
+    login_host: "{{ hostvars[groups['portal'][0]].ansible_host }}"
+    login_password: "{{ dbpass }}"
+    query: SELECT EXISTS (SELECT * FROM information_schema.tables WHERE table_schema = 'my_db' AND table_name = 'my_table');
+  register: my_table
+  ignore_errors: true
+
+- name: Create table role if doesnt exists
+  postgresql_query:
+    db: "{{ dbname }}"
+    login_user: "{{ dbuser }}"
+    login_host: "{{ hostvars[groups['portal'][0]].ansible_host }}"
+    login_password: "{{ dbpass }}"
+    query: CREATE TABLE my_db.my_table ("id" SERIAL, "name" VARCHAR(255) NOT NULL, "edad" bigint NOT NULL, PRIMARY KEY ("id"), UNIQUE ("name"));
+  when: my_table.query_result[0].exists == false
+
+- name: Insert data into table my_table
+  postgresql_query:
+    db: "{{ dbname }}"
+    login_user: "{{ dbuser }}"
+    login_host: "{{ hostvars[groups['portal'][0]].ansible_host }}"
+    login_password: "{{ dbpass }}"
+    query: INSERT INTO my_db.my_table ("name", "edad") VALUES ('{{ item.name }}','{{ item.edad }}')
+  with_items: '{{ mytable }}'
+
+
+- name: Database links creation
+  debug:
+    msg: "Data imported OK to database {{ dbname }}"

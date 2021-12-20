@@ -1,0 +1,20 @@
+---
+
+# Postgresql configuration and portal tables links list
+
+dbname: portal
+dbuser: db_user
+dbpass: db_pass
+
+# Tables in database
+
+mytable:
+  - id: '1'
+    name: 'Pepe'
+    edad: 25
+  - id: '2'
+    name: 'Pedro'
+    edad: 30
+  - id: '3'
+    name: 'Juan'
+    edad: 35
