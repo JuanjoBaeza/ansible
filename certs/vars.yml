@@ -1,0 +1,10 @@
+---
+
+# Var file
+
+dnsname: www1.example.com
+
+pempath: "/mnt/c/Temp/{{ dnsname }}.pem"
+csrpath: "/mnt/c/Temp/{{ dnsname }}.csr"
+
+private_key_password: 'changeme'
