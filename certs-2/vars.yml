@@ -1,0 +1,14 @@
+---
+
+fqdn: 
+- www1.ejemplo.com
+- www2.ejemplo.com
+- www3.ejemplo.com
+
+cert_dir: /home/certificates
+passphrase:    # If desired any passphrase
+key_type: 'RSA'
+key_size: 2048
+country_name: 'SE'
+organization_name: 'Ericsson AB'
+alt_names:      # Add alternate domain names if needed

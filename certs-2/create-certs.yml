@@ -1,0 +1,52 @@
+---
+
+- name: Include vars file
+  include_vars:
+    file: vars.yml
+
+- file:
+    path: "{{ cert_dir }}"
+    state: absent
+
+- file:
+    path: "{{ cert_dir }}"
+    state: directory
+
+- name: Generate Private Key
+  openssl_privatekey: 
+    path: "{{ cert_dir }}/{{ item }}_privkey.pem"
+    size: "{{ key_size }}"
+    type: "{{ key_type }}"
+  with_items:
+    - "{{ fqdn }}"
+
+- name: Generate CSR
+  openssl_csr:
+    path: "{{ cert_dir }}/{{ item }}.csr"
+    privatekey_path: "{{ cert_dir }}/{{ item }}_privkey.pem"
+    country_name: "{{ country_name }}"
+    organization_name: "{{ organization_name }}"
+    common_name: "{{ item }}"
+  with_items:
+    - "{{ fqdn }}"
+
+- name: Generate certificate signed with own CA certificate
+  openssl_certificate:
+    path: "{{ cert_dir }}/{{ item }}.crt"
+    csr_path: "{{ cert_dir }}/{{ item }}.csr"
+    ownca_path: "/mnt/c/Temp/EGADRootCA.crt"
+    ownca_privatekey_path: "{{ cert_dir }}/{{ item }}_privkey.pem"
+    provider: ownca
+  with_items:
+    - "{{ fqdn }}"
+
+- name: Convert the signed certificate into a PKCS12 file with the attached private key
+  openssl_pkcs12:
+    action: export
+    path: "{{ cert_dir }}/{{ item }}.pfx"
+    name: "{{ item }}"
+    privatekey_path: "{{ cert_dir }}/{{ item }}_privkey.pem"
+    certificate_path: "{{ cert_dir }}/{{ item }}.crt"
+    state: present
+  with_items:
+    - "{{ fqdn }}"    

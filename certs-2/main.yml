@@ -1,0 +1,6 @@
+
+- hosts: localhost
+  become: yes
+  tasks:
+     - name: Call task
+       import_tasks: create-certs.yml
